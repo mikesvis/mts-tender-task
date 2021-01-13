@@ -1,9 +1,6 @@
 .idea
 .env
 
-### Docker
-/docker/.data
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

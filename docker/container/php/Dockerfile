@@ -5,10 +5,14 @@ ENV APACHE_DOCUMENT_ROOT /var/www/test-task/public
 RUN apt-get update && apt-get install -my \
     curl \
     wget \
-    git
+    git \
+    zip \
+    libzip-dev
+
+RUN docker-php-ext-configure zip
 
 # PHP Modules
-RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql
+RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql zip
 
 # Composer
 RUN /usr/local/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
