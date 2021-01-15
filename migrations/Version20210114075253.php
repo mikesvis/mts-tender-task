@@ -24,14 +24,18 @@ final class Version20210114075253 extends AbstractMigration
         $this->addSql('ALTER TABLE city RENAME INDEX idx_region_id TO IDX_2D5B023498260155');
         $this->addSql('ALTER TABLE remains RENAME INDEX idx_warehouse_id TO IDX_29EE350F5080ECDE');
         $this->addSql('ALTER TABLE warehouse RENAME INDEX idx_city_id TO IDX_ECB38BFC8BAC62AF');
+        $this->addSql('ALTER TABLE remains ADD INDEX `product_id` (product_id)');
+        $this->addSql('ALTER TABLE remains DROP INDEX IDX_29EE350F5080ECDE');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE import_stat');
+        $this->addSql('ALTER TABLE remains ADD INDEX `IDX_29EE350F5080ECDE` (warehouse_id)');
         $this->addSql('ALTER TABLE city RENAME INDEX idx_2d5b023498260155 TO IDX_region_id');
         $this->addSql('ALTER TABLE remains RENAME INDEX idx_29ee350f5080ecde TO IDX_warehouse_id');
         $this->addSql('ALTER TABLE warehouse RENAME INDEX idx_ecb38bfc8bac62af TO IDX_city_id');
+        $this->addSql('ALTER TABLE remains DROP INDEX `product_id`');
     }
 }
