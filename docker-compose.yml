@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+
+    php:
+      build:
+        context: ./docker/container/php
+      env_file: .env
+      volumes:
+        - ./:/var/www/test-task:cached
+        - ./logs/php/:/var/log/php
+      depends_on:
+        - mysql
+        - rabbitmq
+      ports:
+        - '80:80'
+
+    mysql:
+      build:
+        context: ./docker/container/mysql
+        args:
+          - TIMEZONE=${TIMEZONE}
+      volumes:
+        - ./logs/mysql/:/var/log/mysqld
+        - ./docker/.data/mysql:/var/lib/mysql
+      env_file: .env
+      ports:
+        - '3306:3306'
+      environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
+
+    rabbitmq:
+      image: rabbitmq:3-management
+      env_file: .env
+      ports:
+        - '5672:5672'
+        - '15672:15672'
+      volumes:
+        - ./logs/rabbitmq/:/var/log/rabbitmq
+        - ./docker/.data/rabbitmq:/var/lib/rabbitmq
