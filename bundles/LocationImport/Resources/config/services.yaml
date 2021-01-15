@@ -1,0 +1,46 @@
+parameters:
+    location.import.city_file: '%bundle_dir%/LocationImport/Resources/files/city.csv'
+    location.import.region_file: '%bundle_dir%/LocationImport/Resources/files/region.csv'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    LocationImportBundle\:
+        resource: '../../'
+        exclude:
+            - '../../DependencyInjection/'
+
+    location.import.parser.csv:
+        class: LocationImportBundle\Util\CsvParser
+    location.handler.factory.city:
+        class: LocationImportBundle\Handler\Csv\CsvHandlerFactoryCity
+    location.handler.factory.region:
+        class: LocationImportBundle\Handler\Csv\CsvHandlerFactoryRegion
+    location.repository.region:
+        class: App\Repository\RegionRepository
+    location.repository.city:
+        class: App\Repository\CityRepository
+    location.import.data.manager.regionmap:
+        class: LocationImportBundle\Util\CsvRegionMapManager
+
+    LocationImportBundle\Util\Parser: '@location.import.parser.csv'
+    LocationImportBundle\Util\RegionMapManager: '@location.import.data.manager.regionmap'
+
+    location.import.service.city:
+        class: LocationImportBundle\Service\ServiceCity
+        arguments:
+            $resourceCity: '%location.import.city_file%'
+            $handlerFactory: '@location.handler.factory.city'
+            $repositoryCity: '@location.repository.city'
+
+
+    location.import.service.region:
+        class: LocationImportBundle\Service\ServiceRegion
+        arguments:
+            $resourceRegion: '%location.import.region_file%'
+            $handlerFactory: '@location.handler.factory.region'
+            $repositoryRegion: '@location.repository.region'
+
+    LocationImportBundle\Service\ServiceCity: '@location.import.service.city'
+    LocationImportBundle\Service\ServiceRegion: '@location.import.service.region'

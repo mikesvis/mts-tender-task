@@ -12,9 +12,9 @@ services:
         - ./logs/php/:/var/log/php
       depends_on:
         - mysql
-        - rabbitmq
       ports:
         - '80:80'
+
 
     mysql:
       build:
@@ -31,12 +31,9 @@ services:
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
 
 
-    rabbitmq:
-      image: rabbitmq:3-management
-      env_file: .env
-      ports:
-        - '5672:5672'
-        - '15672:15672'
+    composer:
+      image: composer/composer
       volumes:
-        - ./logs/rabbitmq/:/var/log/rabbitmq
-        - ./docker/.data/rabbitmq:/var/lib/rabbitmq
+        - ./:/var/www/test-task:cached
+        - ./logs/php/:/var/log/php
+      working_dir: /var/www/test-task
