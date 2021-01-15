@@ -15,7 +15,7 @@ class Result
     public function __construct(ImportConfiguration $config)
     {
         $this->timeStart = $config->start;
-        $this->is_full = (int)$config->type === ImportService::TYPE_FULL;
+        $this->is_full = (int)($config->type === ImportService::TYPE_FULL);
     }
 
     /**

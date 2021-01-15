@@ -95,20 +95,22 @@ class StatisticsService
 
     /**
      * @param int $id
-     * @param int $time_end
+     * @param int $timeEnd
      * @param float $la
-     * @param int $rows_deleted
+     * @param int $rowsDeleted
      * @return ImportStat
      * @throws \Exception
      */
-    public function finish(int $id, int $time_end, float $la, int $rows_deleted): ImportStat
+    public function finish(int $id, int $timeEnd, float $la, int $rowsDeleted): ImportStat
     {
         try {
+            $this->entityManager->clear();
             $importStat = $this->getById($id);
-            $importStat->setTimeEnd($time_end);
+            $importStat->setTimeEnd($timeEnd);
             $importStat->setLoadAverage($la);
-            $importStat->setRowsDeleted($rows_deleted);
+            $importStat->setRowsDeleted($rowsDeleted);
             $this->entityManager->flush();
+            $this->entityManager->clear();
         } catch (\Exception $e) {
             throw new \Exception(sprintf('Ошибка обновления статистики: %s', $e->getMessage()));
         }
