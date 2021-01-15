@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -my \
 RUN docker-php-ext-configure zip
 
 # PHP Modules
-RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql zip pcntl
+RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql zip pcntl opcache
 
 # Configuration
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
