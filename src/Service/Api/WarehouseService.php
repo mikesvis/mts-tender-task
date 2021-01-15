@@ -15,6 +15,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class WarehouseService
 {
+    /**
+     * WarehouseService конструктор
+     *
+     * @param WarehouseRepository $warehouseRepository Репозиторий для работы с данными склада
+     * @param CityRepository $cityRepository Репозиторий для работы с данными городов
+     * @param RegionRepository $regionRepository Репозиторий для работы с данными регионов
+     */
     public function __construct(
         private WarehouseRepository $warehouseRepository,
         private CityRepository $cityRepository,

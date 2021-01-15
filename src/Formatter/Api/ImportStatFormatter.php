@@ -13,7 +13,8 @@ class ImportStatFormatter
 {
     /**
      * Форматирование сущности в массив
-     * @param ImportStat $importStat
+     *
+     * @param ImportStat $importStat Данные статистики
      * @return array
      */
     public function formatImportStatToResponse(ImportStat $importStat): array
@@ -36,7 +37,8 @@ class ImportStatFormatter
 
     /**
      * Форматирование временной метки
-     * @param int $timestamp
+     *
+     * @param int $timestamp Временная метка
      * @return string
      */
     private function formatTimestamp(int $timestamp): string

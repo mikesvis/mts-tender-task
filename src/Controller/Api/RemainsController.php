@@ -18,7 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class RemainsController extends AbstractController
 {
     /**
-     * RemainsController constructor.
+     * RemainsController конструктор
+     *
+     * @param WarehouseService $warehouseService Сервис для работы с данными по складам
+     * @param RemainsService $remainsService Сервис для работы сданными по остаткам
+     * @param RemainsFormatter $remainsFormatter Сервис для форматирования данных на вывод
+     * @param ResponseHelper $responseHelper  Сервис для формирования ответа сервера
      */
     public function __construct(
         private WarehouseService $warehouseService,
@@ -31,6 +36,7 @@ class RemainsController extends AbstractController
 
     /**
      * Получить все остатки конкретного товара
+     *
      * @return JsonResponse
      * @Route("/{productId}", methods={"GET"})
      */
@@ -40,13 +46,14 @@ class RemainsController extends AbstractController
         return $this->getRemainsResponse($productId);
     }
 
-/**
- * Получить все остатки товара на складе
- * @param string $productId
- * @param string $warehouseId
- * @return JsonResponse
- * @Route("/{productId}/warehouse/{warehouseId}", methods={"GET"})
- */
+    /**
+     * Получить все остатки товара на складе
+     *
+     * @param string $productId Артикул товара
+     * @param string $warehouseId Код склада
+     * @return JsonResponse
+     * @Route("/{productId}/warehouse/{warehouseId}", methods={"GET"})
+     */
     public function getByWarehouse(string $productId, string $warehouseId): JsonResponse
     {
         $productId = htmlentities($productId);
@@ -60,13 +67,14 @@ class RemainsController extends AbstractController
         return $this->getRemainsResponse($productId, $warehouses);
     }
 
-/**
- * Получить все остатки товара в регионе
- * @param string $productId
- * @param int $regionId
- * @return JsonResponse
- * @Route("/{productId}/region/{regionId}", methods={"GET"})
- */
+    /**
+     * Получить все остатки товара в регионе
+     *
+     * @param string $productId Артикул товара
+     * @param int $regionId ID региона
+     * @return JsonResponse
+     * @Route("/{productId}/region/{regionId}", methods={"GET"})
+     */
     public function getByRegion(string $productId, int $regionId): JsonResponse
     {
         $productId = htmlentities($productId);
@@ -79,13 +87,14 @@ class RemainsController extends AbstractController
         return $this->getRemainsResponse($productId, $warehouses);
     }
 
-/**
- * Получить все остатки товара в городе
- * @param string $productId
- * @param int $cityId
- * @return JsonResponse
- * @Route("/{productId}/city/{cityId}", methods={"GET"})
- */
+    /**
+     * Получить все остатки товара в городе
+     *
+     * @param string $productId Артикул товара
+     * @param int $cityId Id города
+     * @return JsonResponse
+     * @Route("/{productId}/city/{cityId}", methods={"GET"})
+     */
     public function getByCity(string $productId, int $cityId): JsonResponse
     {
         $productId = htmlentities($productId);
@@ -100,6 +109,7 @@ class RemainsController extends AbstractController
 
     /**
      * Получить отформатированный ответ
+     *
      * @return JsonResponse
      */
     private function getRemainsResponse($productId, $warehouses = []): JsonResponse

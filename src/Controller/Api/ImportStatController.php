@@ -17,7 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ImportStatController extends AbstractController
 {
     /**
-     * ImportStatController constructor.
+     * ImportStatController конструктор
+     *
+     * @param ImportStatService $importStatService Сервис для работы со статистикой
+     * @param ImportStatFormatter $importStatFormatter Сервис для форматирования данных на вывод
+     * @param ResponseHelper $responseHelper Сервис для формирования ответа сервера
      */
     public function __construct(
         private ImportStatService $importStatService,
@@ -28,7 +32,8 @@ class ImportStatController extends AbstractController
     }
 
     /**
-     * Получени последней записи статистики
+     * Получение последней записи статистики
+     *
      * @Route("/", methods={"GET"})
      * @return JsonResponse
      */
@@ -47,6 +52,9 @@ class ImportStatController extends AbstractController
 
     /**
      * Получение записи статистики по id
+     *
+     * @param int $id
+     *
      * @Route("/{id}", methods={"GET"})
      * @return JsonResponse
      */

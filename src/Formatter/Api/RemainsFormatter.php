@@ -13,7 +13,8 @@ class RemainsFormatter
 {
     /**
      * Форматирование сущности в массив
-     * @param array $remains
+     *
+     * @param array $remains Массив данных об остатках
      * @return array
      */
     public function formatRemainsToResponse(array $remains): array
