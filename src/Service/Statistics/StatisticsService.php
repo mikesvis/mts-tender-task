@@ -3,7 +3,6 @@
 namespace App\Service\Statistics;
 
 use App\Entity\ImportStat;
-use App\Repository\ImportStatRepository;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -13,8 +12,14 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class StatisticsService
 {
-    private ImportStatRepository $importStatRepository;
+    private \Doctrine\Persistence\ObjectRepository $importStatRepository;
 
+    /**
+     * StatisticsService constructor.
+     *
+     * @param EntityManagerInterface $entityManager
+     * @param Connection $dbConnection
+     */
     public function __construct(private EntityManagerInterface $entityManager, private Connection $dbConnection)
     {
         $this->importStatRepository = $this->entityManager->getRepository(ImportStat::class);

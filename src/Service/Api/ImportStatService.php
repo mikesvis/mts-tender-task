@@ -13,6 +13,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ImportStatService
 {
+    /**
+     * ImportStatService конструктор
+     *
+     * @param ImportStatRepository $importStatRepository Репозиторий для работы с данными статистики
+     */
     public function __construct(private ImportStatRepository $importStatRepository)
     {
 

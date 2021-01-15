@@ -19,6 +19,7 @@ class RemainsService
 
     /**
      * Получить остатки со складов
+     *
      * @param string $productId
      * @param array $warehouses
      * @return \App\Entity\Remains[]

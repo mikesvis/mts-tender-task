@@ -79,6 +79,10 @@ class ImportService
         return $totalDeletedRows;
     }
 
+    /**
+     * Удаляет файлы коллекции
+     * @param Collection $files
+     */
     public function removeFiles(Collection $files): void
     {
         /** @var CsvFile $file */

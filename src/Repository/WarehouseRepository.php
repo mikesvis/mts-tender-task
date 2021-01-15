@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Warehouse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use LocationImportBundle\Trait\LocationBundleTrait;
 
 /**
  * @method Warehouse|null find($id, $lockMode = null, $lockVersion = null)

@@ -4,8 +4,15 @@ namespace App\Service\Import\RemainsFile;
 
 use http\Exception\RuntimeException;
 
+/**
+ * Class GzipCsvFile
+ * @package App\Service\Import\RemainsFile
+ */
 class GzipCsvFile extends CsvFile
 {
+    /**
+     * @var int Размер буфера
+     */
     private const READ_BUFFER_SIZE = 4096;
 
     /**
@@ -23,6 +30,8 @@ class GzipCsvFile extends CsvFile
     }
 
     /**
+     * Распаковывает gz
+     *
      * @param string $source
      * @param string $destination
      * @return void
@@ -38,6 +47,8 @@ class GzipCsvFile extends CsvFile
     }
 
     /**
+     * Получает путь назначения
+     *
      * @param string $source
      * @return string
      */
@@ -47,6 +58,8 @@ class GzipCsvFile extends CsvFile
     }
 
     /**
+     * Получает временный путь
+     *
      * @param string $originalPath
      * @return string
      */
@@ -55,6 +68,9 @@ class GzipCsvFile extends CsvFile
         return sprintf('%s/%s', sys_get_temp_dir(), basename($originalPath));
     }
 
+    /**
+     * Удаляет файлы
+     */
     public function remove(): void
     {
         if (file_exists($this->originalPath)) {

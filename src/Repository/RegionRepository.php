@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Region;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use LocationImportBundle\Trait\LocationBundleTrait;
 
 /**
  * @method Region|null find($id, $lockMode = null, $lockVersion = null)

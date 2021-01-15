@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repository;
+namespace LocationImportBundle\Trait;
 
 
 trait LocationBundleTrait
@@ -9,7 +9,7 @@ trait LocationBundleTrait
     protected $bulkSize = 500;
 
     /**
-     * @inheritDoc
+     * Вставка данных
      */
     public function insert(array $insertData): void
     {
@@ -27,7 +27,7 @@ trait LocationBundleTrait
     }
 
     /**
-     * @inheritDoc
+     * Очистка таблицы
      */
     public function truncate(): void
     {

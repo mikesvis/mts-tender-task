@@ -21,21 +21,47 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Throwable;
 
+/**
+ * Базовая команда импорта
+ *
+ * @package App\Console\Commands
+ */
 class ImportRemainsCommand extends Command
 {
     use MultiProcessTrait;
 
+    /**
+     * @var string Название команды
+     */
     private const SERVICE_NAME = 'import:run';
 
+    /**
+     * @var ImportConfiguration
+     */
     private ImportConfiguration $config;
+
+    /**
+     * @var LoggerInterface
+     */
     private LoggerInterface $logger;
+
+    /**
+     * @var OutputInterface
+     */
     private OutputInterface $output;
 
+    /**
+     * ImportRemainsCommand constructor
+     *
+     * @param ImportService $importService
+     * @param StatisticsService $statisticsService
+     */
     public function __construct(private ImportService $importService, private StatisticsService $statisticsService)
     {
         parent::__construct();
     }
 
+    /** @inheritDoc */
     protected function configure(): void
     {
         $this
