@@ -12,8 +12,13 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class StatisticsService
 {
-    private ImportStatRepository $importStatRepository;
+    private \Doctrine\Persistence\ObjectRepository $importStatRepository;
 
+    /**
+     * StatisticsService constructor.
+     *
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(private EntityManagerInterface $entityManager)
     {
         $this->importStatRepository = $this->entityManager->getRepository(ImportStat::class);

@@ -4,16 +4,51 @@ namespace App\Service\Import;
 
 use Symfony\Component\Console\Input\InputInterface;
 
+/**
+ * Class ImportConfiguration
+ * @package App\Service\Import
+ */
 class ImportConfiguration
 {
+    /**
+     * @var string Опция "path"
+     */
     public string $path;
+
+    /**
+     * @var string Опция "type"
+     */
     public string $type;
+
+    /**
+     * @var int Опция "max-threads"
+     */
     public int $max_threads;
+
+    /**
+     * @var int Опция "threads-pause"
+     */
     public int $threadsPause;
+
+    /**
+     * @var int Опция "db-clean-step-count"
+     */
     public int $dbCleanStepCount;
+
+    /**
+     * @var int Опция "db-clean-pause"
+     */
     public int $dbCleanPause;
+
+    /**
+     * @var int Старт timestamp
+     */
     public int $start;
-    
+
+    /**
+     * ImportConfiguration constructor.
+     * @param InputInterface $input
+     */
     public function __construct(InputInterface $input)
     {
         $this->path = (string)$input->getOption('path');

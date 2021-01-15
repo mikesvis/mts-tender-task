@@ -6,6 +6,10 @@ use App\Service\Import\ImportConfiguration;
 use App\Service\Import\ImportService;
 use JetBrains\PhpStorm\Pure;
 
+/**
+ * Class Result
+ * @package App\Service\Statistics
+ */
 class Result
 {
     public int $timeStart;

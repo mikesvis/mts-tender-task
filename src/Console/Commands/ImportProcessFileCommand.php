@@ -19,17 +19,44 @@ use Doctrine\DBAL\Driver\Connection;
 
 /**
  * Команда обработки файла импорта
+ *
  * @package App\Console\Commands
  */
 class ImportProcessFileCommand extends Command
 {
+    /**
+     * @var string Название команды
+     */
     public const SERVICE_NAME = 'import:process-file';
 
+    /**
+     * @var CsvFile
+     */
     private CsvFile $csvFile;
+
+    /**
+     * @var int Опция "import-id"
+     */
     private int $importId;
+
+    /**
+     * @var Warehouse
+     */
     private Warehouse $warehouse;
+
+    /**
+     * @var LoggerInterface
+     */
     private LoggerInterface $logger;
 
+    /**
+     * ImportProcessFileCommand constructor
+     *
+     * @param ImportService $importService
+     * @param WarehouseService $warehouseService
+     * @param StatisticsService $statisticsService
+     * @param Connection $dbConnection
+     */
     public function __construct(
         private ImportService $importService,
         private WarehouseService $warehouseService,
@@ -60,6 +87,7 @@ class ImportProcessFileCommand extends Command
             );
     }
 
+    /** @inheritDoc */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->csvFile = new CsvFile($input->getOption('path'));
