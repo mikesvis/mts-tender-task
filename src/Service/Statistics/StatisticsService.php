@@ -4,6 +4,7 @@ namespace App\Service\Statistics;
 
 use App\Entity\ImportStat;
 use App\Repository\ImportStatRepository;
+use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -14,7 +15,7 @@ class StatisticsService
 {
     private ImportStatRepository $importStatRepository;
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private Connection $dbConnection)
     {
         $this->importStatRepository = $this->entityManager->getRepository(ImportStat::class);
     }
@@ -65,6 +66,7 @@ class StatisticsService
             $importStat->setIsFull($type);
             $this->entityManager->persist($importStat);
             $this->entityManager->flush();
+            $this->entityManager->clear();
         } catch (\Exception $e) {
             throw new \Exception(sprintf('Ошибка добавления статистики: %s', $e->getMessage()));
         }
@@ -77,20 +79,16 @@ class StatisticsService
      * @param int $id
      * @param int $total
      * @param int $error
-     * @return ImportStat
-     * @throws \Exception
+     * @return void
      */
-    public function addCount(int $id, int $total, int $error): ImportStat
+    public function addCount(int $id, int $total, int $error): void
     {
-        try {
-            $importStat = $this->getById($id);
-            $importStat->setCountTotal($importStat->getCountTotal() + $total);
-            $importStat->setCountError($importStat->getCountError() + $error);
-            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            throw new \Exception(sprintf('Ошибка добавления счетчиков в статистику: %s', $e->getMessage()));
-        }
-        return $importStat;
+        $this->dbConnection->exec(
+            'UPDATE `import_stat` SET 
+                    `count_total` = `count_total` + ' . $total . ', 
+                    `count_error` = `count_error` + ' . $error . '
+                    WHERE `time_start` = ' . $id
+        );
     }
 
     /**
@@ -104,7 +102,6 @@ class StatisticsService
     public function finish(int $id, int $timeEnd, float $la, int $rowsDeleted): ImportStat
     {
         try {
-            $this->entityManager->clear();
             $importStat = $this->getById($id);
             $importStat->setTimeEnd($timeEnd);
             $importStat->setLoadAverage($la);
