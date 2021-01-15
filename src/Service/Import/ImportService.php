@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class ImportService
 {
     public const TYPE_FULL = 'full';
+    public const BULK_INSERT_CHUNK_SIZE = 50;
 
     /**
      * @var int Размер партии сохраняемых записей
@@ -42,17 +43,20 @@ class ImportService
         foreach ($data as $row) {
             $values["{$warehouse->getId()}|{$row[0]}"] = "('{$row[0]}', '{$warehouse->getId()}', {$row[1]}, '{$updateTimeString}', '{$importTimeString}')";
         }
-
-        $this->dbConnection->exec('
-            INSERT INTO `remains`
-            (`product_id`, `warehouse_id`, `count`, `date_update`, `date_import`)
-            VALUES
-            ' . implode(',', $values) . '
-            ON DUPLICATE KEY UPDATE
-                `count` = VALUES(`count`),
-                `date_update` = VALUES(`date_update`),
-                `date_import` = VALUES(`date_import`);
-        ');
+        
+        $chunks = array_chunk($values, self::BULK_INSERT_CHUNK_SIZE);
+        foreach ($chunks as $chunk) {
+            $this->dbConnection->exec('
+                INSERT INTO `remains`
+                (`product_id`, `warehouse_id`, `count`, `date_update`, `date_import`)
+                VALUES
+                ' . implode(',', $chunk) . '
+                ON DUPLICATE KEY UPDATE
+                    `count` = VALUES(`count`),
+                    `date_update` = VALUES(`date_update`),
+                    `date_import` = VALUES(`date_import`);
+            ');
+        }
     }
 
     /**
